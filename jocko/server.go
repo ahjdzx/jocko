@@ -10,7 +10,6 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	opentracing "github.com/opentracing/opentracing-go"
-	"github.com/travisjeffery/jocko/jocko/config"
 	"github.com/travisjeffery/jocko/jocko/util"
 	"github.com/travisjeffery/jocko/log"
 	"github.com/travisjeffery/jocko/protocol"
@@ -42,7 +41,6 @@ type broker interface {
 // Server is used to handle the TCP connections, decode requests,
 // defer to the broker, and encode the responses.
 type Server struct {
-	config       *config.ServerConfig
 	protocolLn   *net.TCPListener
 	logger       log.Logger
 	broker       *Broker
@@ -56,11 +54,11 @@ type Server struct {
 	close        func() error
 }
 
-func NewServer(config *config.ServerConfig, broker *Broker, metrics *Metrics, tracer opentracing.Tracer, close func() error, logger log.Logger) *Server {
+func NewServer(broker *Broker, metrics *Metrics, tracer opentracing.Tracer, close func() error, logger log.Logger) *Server {
 	s := &Server{
-		config:     config,
-		broker:     broker,
-		logger:     logger.With(log.Int32("node id", broker.config.ID), log.String("addr", broker.config.Addr)),
+		broker: broker,
+		//	logger:     logger.With(log.Int32("node id", broker.config.ID), log.String("addr", broker.config.Addr)),
+		logger:     logger,
 		metrics:    metrics,
 		shutdownCh: make(chan struct{}),
 		requestCh:  make(chan Request, 32),
@@ -74,7 +72,7 @@ func NewServer(config *config.ServerConfig, broker *Broker, metrics *Metrics, tr
 
 // Start starts the service.
 func (s *Server) Start(ctx context.Context) error {
-	protocolAddr, err := net.ResolveTCPAddr("tcp", s.config.BrokerAddr)
+	protocolAddr, err := net.ResolveTCPAddr("tcp", s.broker.config.Addr)
 	if err != nil {
 		return err
 	}

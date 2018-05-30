@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	"testing"
@@ -33,11 +32,14 @@ var (
 )
 
 func init() {
-	var err error
-	logDir, err = ioutil.TempDir("/tmp", "jocko-client-test")
-	if err != nil {
-		panic(err)
-	}
+	logDir = "./logDir"
+	/*
+		var err error
+		logDir, err = ioutil.TempDir("/tmp", "jocko-client-test")
+		if err != nil {
+			panic(err)
+		}
+	*/
 }
 
 func main() {
@@ -156,6 +158,6 @@ func setup(logger log.Logger) (*jocko.Server, func()) {
 	return c, func() {
 		cancel()
 		c.Shutdown()
-		os.RemoveAll(logDir)
+		//os.RemoveAll(logDir)
 	}
 }

@@ -92,8 +92,9 @@ type Broker struct {
 // New is used to instantiate a new broker.
 func NewBroker(config *config.BrokerConfig, tracer opentracing.Tracer, logger log.Logger) (*Broker, error) {
 	b := &Broker{
-		config:        config,
-		logger:        logger.With(log.Int32("id", config.ID), log.String("raft addr", config.RaftAddr)),
+		config: config,
+		//logger:        logger.With(log.Int32("id", config.ID), log.String("raft addr", config.RaftAddr)),
+		logger:        logger,
 		shutdownCh:    make(chan struct{}),
 		eventChLAN:    make(chan serf.Event, 256),
 		brokerLookup:  NewBrokerLookup(),

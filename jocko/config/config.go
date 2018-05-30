@@ -59,7 +59,3 @@ func serfDefaultConfig() *serf.Config {
 	base.QueueDepthWarning = 1000000
 	return base
 }
-
-type ServerConfig struct {
-	BrokerAddr string
-}

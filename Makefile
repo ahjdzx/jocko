@@ -10,7 +10,7 @@ deps:
 vet:
 	@go list ./... | grep -v vendor | xargs go vet
 
-build: deps
+build: 
 	@go build -o $(BUILD_PATH) cmd/jocko/main.go
 
 release:
