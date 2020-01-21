@@ -74,6 +74,7 @@ func (b *Broker) lanNodeJoin(me serf.MemberEvent) {
 			continue
 		}
 		log.Info.Printf("broker/%d: adding LAN server: %s", b.config.ID, meta.ID)
+		log.Info.Printf("%#v", meta)
 		// update server lookup
 		b.brokerLookup.AddBroker(meta)
 		if b.config.BootstrapExpect != 0 {

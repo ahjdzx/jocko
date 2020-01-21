@@ -35,6 +35,7 @@ func New(level log.Level, prefix string) *logger {
 	case log.ErrorLevel:
 		l.l = log.Error
 	}
+
 	return l
 }
 

@@ -117,7 +117,7 @@ func NewBroker(config *config.Config, tracer opentracing.Tracer) (*Broker, error
 
 	go b.monitorLeadership()
 
-	go b.logState()
+	// go b.logState()
 
 	return b, nil
 }

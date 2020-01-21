@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 
 	"testing"
@@ -11,7 +12,6 @@ import (
 	"github.com/Shopify/sarama"
 	"github.com/travisjeffery/jocko/jocko"
 	"github.com/travisjeffery/jocko/jocko/config"
-	"github.com/travisjeffery/jocko/log"
 	"github.com/travisjeffery/jocko/protocol"
 )
 
@@ -92,12 +92,12 @@ func main() {
 			fmt.Printf("msg partition [%d] offset [%d]\n", msg.Partition, msg.Offset)
 			check := pmap[partitionID][i]
 			if string(msg.Value) != check.message {
-				log.Fatal.Printf("msg values not equal: partition: %d: offset: %d", msg.Partition, msg.Offset)
+				log.Printf("msg values not equal: partition: %d: offset: %d", msg.Partition, msg.Offset)
 			}
 			if msg.Offset != check.offset {
-				log.Fatal.Printf("msg offsets not equal: partition: %d: offset: %d", msg.Partition, msg.Offset)
+				log.Printf("msg offsets not equal: partition: %d: offset: %d", msg.Partition, msg.Offset)
 			}
-			log.Info.Printf("msg is ok: partition: %d: offset: %d", msg.Partition, msg.Offset)
+			log.Printf("msg is ok: partition: %d: offset: %d", msg.Partition, msg.Offset)
 			i++
 			checked++
 			fmt.Printf("i: %d, len: %d\n", i, len(pmap[partitionID]))
